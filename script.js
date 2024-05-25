@@ -16,10 +16,30 @@
 
 // USANDO FUNÇÕES ASYNC AWAIT, COM O USO DE TRY DE CATCH
 
+/*CODIGO ANTERIOR
 async function buscaEndereco(cep) {
   try {
     // var consultaCEP = await fetch("http://viacep.com.br/ws/01001000/json/"); //fetch é um método assincrono com um parâmetro obrigatório, a URL
     var consultaCEP = await fetch(`http://viacep.com.br/ws/${cep}/json/`); //fetch é um método assincrono com um parâmetro obrigatório, a URL
+    var consultaCEPConvertida = await consultaCEP.json();
+    if (consultaCEPConvertida.erro) {
+      throw Error("CEP não existente");
+    }
+    console.log(consultaCEPConvertida);
+  } catch (erro) {
+    console.log(erro);
+  }
+}
+
+var cep = document.getElementById("cep");
+cep.addEventListener("focusout", () => buscaEndereco(cep.value));
+*/
+
+/*CÓDIGO NOVO*/
+async function buscaEndereco(cep) {
+  try {
+    // Altere a URL para usar HTTPS
+    var consultaCEP = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     var consultaCEPConvertida = await consultaCEP.json();
     if (consultaCEPConvertida.erro) {
       throw Error("CEP não existente");
