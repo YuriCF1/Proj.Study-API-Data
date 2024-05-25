@@ -37,22 +37,28 @@ cep.addEventListener("focusout", () => buscaEndereco(cep.value));
 
 /*CÓDIGO NOVO*/
 async function buscaEndereco(cep) {
+  console.log();
   try {
-    // Altere a URL para usar HTTPS
     var consultaCEP = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     var consultaCEPConvertida = await consultaCEP.json();
     if (consultaCEPConvertida.erro) {
       throw Error("CEP não existente");
     }
-    console.log(consultaCEPConvertida);
+    
+    console.log(consultaCEP);
+    document.getElementById('endereco').value = consultaCEPConvertida.logradouro;
+    document.getElementById('bairro').value = consultaCEPConvertida.bairro;
+    document.getElementById('cidade').value = consultaCEPConvertida.localidade;
+    document.getElementById('estado').value = consultaCEPConvertida.uf;
+
   } catch (erro) {
     console.log(erro);
+    alert("CEP não encontrado ou inválido.");
   }
 }
 
 var cep = document.getElementById("cep");
 cep.addEventListener("focusout", () => buscaEndereco(cep.value));
-
 // buscaEndereco();
 
 // USANDO PROMISSE ALL
